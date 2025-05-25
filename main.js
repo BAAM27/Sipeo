@@ -1,77 +1,46 @@
-function fetchData() {
-    $.ajax({
-        url: 'fetchData.php',
-        method: 'GET',
-        dataType: 'json',
-        success: function(data) {
-            $('#soilMoisture').empty();
-            $('#soilPH').empty();
-            $('#valueBuah').empty();
-            $('#durasiSiram').empty();
-            $.each(data, function(index, item) {
-                $('#soilMoisture').append(item.kelembaban + '%');
-                $('#soilPH').append(item.ph);
-                $('#valueBuah').append(item.buah);
-                $('#tampilsiram').append(item.durasiSiram);
-            });
-        }
-    });
+const warningOk = document.getElementById('warning-ok');
+const warningSiram = document.getElementById('warning-siram');
+const warningPupuk = document.getElementById('warning-pupuk');
+const soilMoisture = document.getElementById('soilMoisture');
+const soilPH = document.getElementById('soilPH')
+const valueBuah = document.getElementById('valueBuah');
+
+soilMoisture.textContent = '--';
+soilPH.textContent = '--';
+valueBuah.textContent = '--Pilihan Buah--';
+
+function peringatan(){
+    function hilang(){
+        warningOk.style.opacity = '1';
+    }
+    
+    setTimeout(() => {
+        warningOk.style.opacity = '0';
+    }, 2500);
+
+    hilang();
 }
-setInterval(fetchData, 1500);
-$(document).ready(function() {
-    fetchData();
-});
 
+function siram(){
+    function hilang(){
+        warningSiram.style.opacity = '1';
+    }
+    
+    setTimeout(() => {
+        warningSiram.style.opacity = '0';
+    }, 2500);
 
+    hilang();
+}
 
-$(document).ready(function() {
-    $('#btnok').click(function() {
-        var durasiSiram = $('#durasiSiram').val();
-        var durasiPupuk = $('#durasiPupuk').val();
-        var buah = $('#buah').val();
-        $.ajax({
-            type: 'POST',
-            url: 'proses.php',
-            data: { durasiSiram: durasiSiram, durasiPupuk: durasiPupuk, buah: buah },
-            success: function(response) {
-                console.log("masuk");
-                console.log(response); // jika Anda ingin melihat respons dari server
-            },
-            error: function() {
-                console.log("tidak masuk");
-            }
-        });
-    });
+function pupuk(){
+    function hilang(){
+        warningPupuk.style.opacity = '1';
+    }
+    
+    setTimeout(() => {
+        warningPupuk.style.opacity = '0';
+    }, 2500);
 
-    $('#btnWater').click(function() {
-        var siram = 2;
-        $.ajax({
-            type: 'POST',
-            url: 'proses.php',
-            data: { siram: siram },
-            success: function(response) {
-                console.log("masuk");
-                console.log(response); // jika Anda ingin melihat respons dari server
-            },
-            error: function() {
-                console.log("tidak masuk");
-            }
-        });
-    });
-
-    $('#btnFertilize').click(function() {
-        var pupuk = 2;
-        $.ajax({
-            type: 'POST',
-            url: 'proses.php',
-            data: { pupuk: pupuk },
-            success: function(response) {
-                console.log("masuk");
-                console.log(response); // jika Anda ingin melihat respons dari server
-            },
-            error: function() {
-                console.log("tidak masuk");
-            }
-        });
-    });
-});
+    hilang();
+}
